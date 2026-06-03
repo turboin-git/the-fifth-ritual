@@ -1,0 +1,56 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import ClientDashboard from './pages/client/Dashboard';
+import ArtistDashboard from './pages/artist/Dashboard';
+import AdminDashboard from './pages/admin/Dashboard';
+import Catalog from './pages/public/Catalog';
+
+function ProtectedRoute({ children, allowedRole }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" />;
+  if (allowedRole && user.role !== allowedRole) return <Navigate to="/login" />;
+  return children;
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/catalog" element={<Catalog />} />
+
+      <Route path="/dashboard" element={
+        <ProtectedRoute allowedRole="CLIENT">
+          <ClientDashboard />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/artist" element={
+        <ProtectedRoute allowedRole="ARTIST">
+          <ArtistDashboard />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin" element={
+        <ProtectedRoute allowedRole="ADMIN">
+          <AdminDashboard />
+        </ProtectedRoute>
+      } />
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+        <Toaster position="top-right" />
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
