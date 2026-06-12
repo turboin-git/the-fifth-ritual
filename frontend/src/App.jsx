@@ -7,6 +7,8 @@ import ClientDashboard from './pages/client/Dashboard';
 import ArtistDashboard from './pages/artist/Dashboard';
 import AdminDashboard from './pages/admin/Dashboard';
 import Catalog from './pages/public/Catalog';
+import UploadGallery from './pages/artist/UploadGallery';
+import SmartBooking from './pages/client/SmartBooking';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -29,9 +31,21 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
+      <Route path="/booking" element={
+        <ProtectedRoute allowedRole="CLIENT">
+          <SmartBooking />
+        </ProtectedRoute>
+      } />
+
       <Route path="/artist" element={
         <ProtectedRoute allowedRole="ARTIST">
           <ArtistDashboard />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/artist/gallery" element={
+        <ProtectedRoute allowedRole="ARTIST">
+          <UploadGallery />
         </ProtectedRoute>
       } />
 

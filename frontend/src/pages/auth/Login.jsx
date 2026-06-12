@@ -30,83 +30,112 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <div className="w-6 h-6 bg-purple-500 rounded-sm"></div>
-            <span className="text-white font-bold text-xl">The Fifth Ritual</span>
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6">
+
+      {/* Logo */}
+      <div className="text-center mb-10">
+        <h1 className="text-white text-4xl font-serif font-bold tracking-wide">
+          The Fifth Ritual
+        </h1>
+        <p className="text-gray-500 text-sm mt-2 tracking-widest uppercase">
+          Studio Management
+        </p>
+      </div>
+
+      {/* Card */}
+      <div className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 border border-gray-800">
+
+        <h2 className="text-white text-2xl font-serif font-bold mb-8">
+          Sign In
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* Email */}
+          <div>
+            <label className="text-gray-400 text-xs font-bold uppercase tracking-widest block mb-2">
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent text-gray-200 py-2 border-b border-gray-600 focus:outline-none focus:border-purple-500 text-sm placeholder-gray-600 transition"
+              placeholder="artist@thefifthritual.studio"
+              required
+            />
           </div>
-          <p className="text-gray-400 text-sm">Studio Management</p>
-        </div>
 
-        {/* Card */}
-        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
-          <h2 className="text-white text-2xl font-bold mb-1">Sign In</h2>
-          <p className="text-gray-400 text-sm mb-6">Welcome back to your studio</p>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="text-gray-400 text-xs uppercase tracking-wider block mb-2">
-                Email Address
+          {/* Password */}
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-gray-400 text-xs font-bold uppercase tracking-widest">
+                Password
               </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-gray-800 text-white px-4 py-3 rounded-xl border border-gray-700 focus:outline-none focus:border-purple-500 text-sm"
-                placeholder="studio@example.com"
-                required
-              />
+              <span className="text-purple-400 text-xs cursor-pointer hover:text-purple-300 transition">
+                Forgot Password?
+              </span>
             </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <label className="text-gray-400 text-xs uppercase tracking-wider">Password</label>
-                <span className="text-purple-400 text-xs cursor-pointer">Forgot Password?</span>
-              </div>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-gray-800 text-white px-4 py-3 rounded-xl border border-gray-700 focus:outline-none focus:border-purple-500 text-sm"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition disabled:opacity-50 mt-2"
-            >
-              {loading ? 'Signing in...' : 'Sign In →'}
-            </button>
-          </form>
-
-          <div className="flex items-center my-4">
-            <div className="flex-1 border-t border-gray-700"></div>
-            <span className="text-gray-500 text-xs px-3">OR SIGN IN WITH</span>
-            <div className="flex-1 border-t border-gray-700"></div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-transparent text-gray-200 py-2 border-b border-gray-600 focus:outline-none focus:border-purple-500 text-sm placeholder-gray-600 transition"
+              placeholder="••••••••"
+              required
+            />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2.5 rounded-xl text-sm transition border border-gray-700">
-              <span>G</span> Google
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2.5 rounded-xl text-sm transition border border-gray-700">
-              <span>🍎</span> Apple
-            </button>
-          </div>
+          {/* Sign In Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition disabled:opacity-50 mt-4"
+          >
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
 
-          <p className="text-gray-400 text-center text-sm mt-6">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-purple-400 hover:underline">
-              Request Access
-            </Link>
-          </p>
+        </form>
+
+        {/* Divider */}
+        <div className="flex items-center my-6">
+          <div className="flex-1 border-t border-gray-700"></div>
+          <span className="text-gray-600 text-xs px-3 uppercase tracking-widest">
+            Or sign in with
+          </span>
+          <div className="flex-1 border-t border-gray-700"></div>
         </div>
+
+        {/* Social Buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <button className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition">
+            <span className="font-bold text-base">G</span>
+            <span>Google</span>
+          </button>
+          <button className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition">
+            <span>Facebook</span>
+            <span></span>
+          </button>
+        </div>
+
+        {/* Register Link */}
+        <p className="text-gray-600 text-center text-sm mt-6">
+          Don't have a studio account?{' '}
+          <Link to="/register" className="text-purple-400 hover:text-purple-300 transition">
+            Request Access
+          </Link>
+        </p>
+
+        {/* Admin Link */}
+        <div className="text-center mt-3">
+          <Link
+            to="/admin/login"
+            className="text-gray-600 text-xs hover:text-gray-400 transition"
+          >
+            Admin Login →
+          </Link>
+        </div>
+
       </div>
     </div>
   );
