@@ -20,11 +20,9 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
             helper.setTo(toEmail);
             helper.setSubject("Welcome to The Fifth Ritual 🖋️");
             helper.setText(buildWelcomeEmail(name), true);
-
             mailSender.send(message);
             log.info("Welcome email sent to: {}", toEmail);
         } catch (Exception e) {
@@ -39,11 +37,9 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
             helper.setTo(toEmail);
             helper.setSubject("Booking Confirmed — The Fifth Ritual 🖋️");
             helper.setText(buildBookingEmail(clientName, artistName, date, timeSlot), true);
-
             mailSender.send(message);
             log.info("Booking confirmation email sent to: {}", toEmail);
         } catch (Exception e) {
@@ -57,11 +53,9 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
             helper.setTo(toEmail);
             helper.setSubject("Appointment Cancelled — The Fifth Ritual");
             helper.setText(buildCancellationEmail(clientName, date), true);
-
             mailSender.send(message);
             log.info("Cancellation email sent to: {}", toEmail);
         } catch (Exception e) {
@@ -74,15 +68,28 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
             helper.setTo(toEmail);
             helper.setSubject("Your OTP — The Fifth Ritual");
             helper.setText(buildOtpEmail(name, otp), true);
-
             mailSender.send(message);
             log.info("OTP email sent to: {}", toEmail);
         } catch (Exception e) {
             log.error("Failed to send OTP email to {}: {}", toEmail, e.getMessage());
+        }
+    }
+
+    @Async
+    public void sendPasswordResetEmail(String toEmail, String name, String resetLink) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setSubject("Reset Your Password — The Fifth Ritual");
+            helper.setText(buildPasswordResetEmail(name, resetLink), true);
+            mailSender.send(message);
+            log.info("Password reset email sent to: {}", toEmail);
+        } catch (Exception e) {
+            log.error("Failed to send password reset email to {}: {}", toEmail, e.getMessage());
         }
     }
 
@@ -131,7 +138,6 @@ public class EmailService {
                 <div style="background:#111;border-radius:16px;padding:30px;border:1px solid #333;">
                     <h2 style="color:#fff;margin-bottom:10px;">Booking Confirmed! ✅</h2>
                     <p style="color:#9ca3af;">Hey %s, your appointment has been confirmed.</p>
-
                     <div style="margin:25px 0;padding:20px;background:#1a1a1a;border-radius:12px;">
                         <table style="width:100%%;">
                             <tr>
@@ -148,7 +154,6 @@ public class EmailService {
                             </tr>
                         </table>
                     </div>
-
                     <div style="padding:15px;background:#1a0a2e;border-radius:12px;border:1px solid #7c3aed;">
                         <p style="color:#c4b5fd;margin:0;font-size:14px;">
                             📋 Please arrive 10 minutes early and avoid alcohol 24 hours before your session.
@@ -174,7 +179,7 @@ public class EmailService {
                 <div style="background:#111;border-radius:16px;padding:30px;border:1px solid #333;">
                     <h2 style="color:#fff;margin-bottom:10px;">Appointment Cancelled</h2>
                     <p style="color:#9ca3af;">Hey %s, your appointment on %s has been cancelled.</p>
-                    <a href="http://localhost:5173/book"
+                    <a href="http://localhost:5173/booking"
                        style="display:inline-block;background:#7c3aed;color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:20px;">
                         Book Again →
                     </a>
@@ -205,5 +210,40 @@ public class EmailService {
             </body>
             </html>
             """.formatted(name, otp);
+    }
+
+    private String buildPasswordResetEmail(String name, String resetLink) {
+        return """
+            <!DOCTYPE html>
+            <html>
+            <body style="background:#000;color:#fff;font-family:serif;padding:40px;max-width:500px;margin:0 auto;">
+                <div style="text-align:center;margin-bottom:30px;">
+                    <h1 style="color:#7c3aed;font-size:2rem;">The Fifth Ritual</h1>
+                    <p style="color:#9ca3af;">Tattoo Studio Management</p>
+                </div>
+                <div style="background:#111;border-radius:16px;padding:30px;border:1px solid #333;">
+                    <h2 style="color:#fff;margin-bottom:10px;">Reset Your Password 🔐</h2>
+                    <p style="color:#9ca3af;line-height:1.6;">
+                        Hey %s, we received a request to reset your password.
+                        Click the button below to create a new password.
+                    </p>
+                    <div style="text-align:center;margin:30px 0;">
+                        <a href="%s"
+                           style="display:inline-block;background:#7c3aed;color:#fff;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;">
+                            Reset Password →
+                        </a>
+                    </div>
+                    <div style="padding:15px;background:#1a1a1a;border-radius:12px;border-left:4px solid #ef4444;">
+                        <p style="color:#fca5a5;margin:0;font-size:13px;">
+                            ⚠️ This link expires in 30 minutes. If you did not request this, ignore this email.
+                        </p>
+                    </div>
+                </div>
+                <p style="color:#4b5563;text-align:center;margin-top:20px;font-size:12px;">
+                    © 2024 The Fifth Ritual. All rights reserved.
+                </p>
+            </body>
+            </html>
+            """.formatted(name, resetLink);
     }
 }

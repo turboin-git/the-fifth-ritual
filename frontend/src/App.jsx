@@ -1,3 +1,5 @@
+import ForgotPassword from './pages/auth/ForgetPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -9,6 +11,9 @@ import AdminDashboard from './pages/admin/Dashboard';
 import Catalog from './pages/public/Catalog';
 import UploadGallery from './pages/artist/UploadGallery';
 import SmartBooking from './pages/client/SmartBooking';
+import SelectArtist from './pages/client/SelectArtist';
+import AdminLogin from './pages/auth/AdminLogin';
+import AfterCare from './pages/client/AfterCare';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -24,6 +29,9 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/catalog" element={<Catalog />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route path="/dashboard" element={
         <ProtectedRoute allowedRole="CLIENT">
@@ -52,6 +60,18 @@ function AppRoutes() {
       <Route path="/admin" element={
         <ProtectedRoute allowedRole="ADMIN">
           <AdminDashboard />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/select-artist" element={
+        <ProtectedRoute allowedRole="CLIENT">
+          <SelectArtist />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/care" element={
+        <ProtectedRoute allowedRole="CLIENT">
+          <AfterCare />
         </ProtectedRoute>
       } />
     </Routes>

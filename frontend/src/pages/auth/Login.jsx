@@ -72,9 +72,13 @@ export default function Login() {
               <label className="text-gray-400 text-xs font-bold uppercase tracking-widest">
                 Password
               </label>
-              <span className="text-purple-400 text-xs cursor-pointer hover:text-purple-300 transition">
+              <button
+                type="button"
+                onClick={() => navigate('/forgot-password')}
+                className="text-purple-400 text-xs cursor-pointer hover:text-purple-300 transition"
+              >
                 Forgot Password?
-              </span>
+              </button>
             </div>
             <input
               type="password"
@@ -108,13 +112,18 @@ export default function Login() {
 
         {/* Social Buttons */}
         <div className="grid grid-cols-2 gap-3">
-          <button className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition">
+          <button
+            onClick={() => toast('Google login coming soon!', { icon: '🔜' })}
+            className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition"
+          >
             <span className="font-bold text-base">G</span>
             <span>Google</span>
           </button>
-          <button className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition">
+          <button
+            onClick={() => toast('Facebook login coming soon!', { icon: '🔜' })}
+            className="flex items-center justify-center gap-2 border border-gray-700 text-gray-300 py-2.5 rounded-xl text-sm hover:border-gray-500 hover:text-white transition"
+          >
             <span>Facebook</span>
-            <span></span>
           </button>
         </div>
 

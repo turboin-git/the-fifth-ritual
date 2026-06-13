@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { loginApi } from '../../api/auth';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -23,238 +23,144 @@ export default function AdminLogin() {
         return;
       }
       login({ name, role, userId }, token);
-      toast.success('Admin session started.');
+      toast.success('Secure session established.');
       navigate('/admin');
     } catch (err) {
-      toast.error('Invalid credentials. Access denied.');
+      toast.error('Invalid credentials or unauthorized access.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={s.page}>
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6">
+
       {/* Logo */}
-      <div style={s.logoWrap}>
-        <span style={s.logoIcon}>✦</span>
-        <span style={s.logoText}>The Fifth Ritual</span>
+      <div className="text-center mb-10">
+        <h1 className="text-white text-4xl font-serif font-bold tracking-wide">
+          The Fifth Ritual
+        </h1>
+        <p className="text-gray-500 text-sm mt-2 tracking-widest uppercase">
+          Studio Management
+        </p>
       </div>
 
       {/* Card */}
-      <div style={s.card}>
-        <h1 style={s.heading}>Studio{'\n'}Management</h1>
-        <p style={s.subheading}>
-          Authorized personnel only. Please authenticate your administrative session.
+      <div className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 border border-gray-800">
+
+        <h2 className="text-white text-2xl font-serif font-bold mb-2">
+          Admin Login
+        </h2>
+        <p className="text-gray-500 text-xs mb-8">
+          Authorized personnel only.
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-6">
+
           {/* Studio ID */}
-          <div style={s.fieldGroup}>
-            <label style={s.label}>STUDIO ID</label>
-            <div style={s.inputWrap}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={s.inputIcon}>
-                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          <div>
+            <label className="text-gray-400 text-xs font-bold uppercase tracking-widest block mb-2">
+              Studio ID
+            </label>
+            <div className="flex items-center gap-3 border-b border-gray-600 pb-2 focus-within:border-purple-500 transition">
+              <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
               <input
                 type="text"
-                placeholder="e.g. IF-NY-01"
                 value={studioId}
                 onChange={(e) => setStudioId(e.target.value)}
-                style={s.input}
+                placeholder="e.g. TFR-NP-01"
+                className="flex-1 bg-transparent text-gray-200 text-sm placeholder-gray-600 focus:outline-none"
               />
             </div>
           </div>
 
-          {/* Admin Credentials */}
-          <div style={s.fieldGroup}>
-            <label style={s.label}>ADMIN CREDENTIALS</label>
-            <div style={s.inputWrap}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={s.inputIcon}>
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
+          {/* Email */}
+          <div>
+            <label className="text-gray-400 text-xs font-bold uppercase tracking-widest block mb-2">
+              Admin Credentials
+            </label>
+            <div className="flex items-center gap-3 border-b border-gray-600 pb-2 focus-within:border-purple-500 transition">
+              <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <input
                 type="email"
-                placeholder="user@thefifthritual.studio"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={s.input}
+                placeholder="admin@thefifthritual.studio"
+                className="flex-1 bg-transparent text-gray-200 text-sm placeholder-gray-600 focus:outline-none"
                 required
               />
             </div>
           </div>
 
           {/* Password */}
-          <div style={s.fieldGroup}>
-            <div style={s.passwordHeader}>
-              <label style={s.label}>PASSWORD</label>
-              <span style={s.hardwareToken}>HARDWARE TOKEN?</span>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-gray-400 text-xs font-bold uppercase tracking-widest">
+                Password
+              </label>
+              <button
+                type="button"
+                className="text-purple-400 text-xs font-bold tracking-widest hover:text-purple-300 transition"
+              >
+                Hardware Token?
+              </button>
             </div>
-            <div style={s.inputWrap}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={s.inputIcon}>
-                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            <div className="flex items-center gap-3 border-b border-gray-600 pb-2 focus-within:border-purple-500 transition">
+              <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
               </svg>
               <input
                 type="password"
-                placeholder="••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={s.input}
+                placeholder="••••••••"
+                className="flex-1 bg-transparent text-gray-200 text-sm placeholder-gray-600 focus:outline-none"
                 required
               />
             </div>
           </div>
 
-          <button type="submit" disabled={loading} style={s.primaryBtn}>
-            {loading ? 'Authenticating...' : (
-              <span style={s.btnInner}>
-                SECURE LOGIN
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold tracking-widest py-3 rounded-xl transition flex items-center justify-center gap-2 mt-4"
+          >
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Authenticating...
+              </>
+            ) : (
+              <>
+                Secure Login
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-              </span>
+              </>
             )}
           </button>
+
         </form>
 
-        {/* Back link */}
-        <Link to="/login" style={s.backLink}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"/>
-            <polyline points="12 19 5 12 12 5"/>
-          </svg>
-          RETURN TO PUBLIC LOGIN
-        </Link>
+        {/* Return Link */}
+        <div className="text-center mt-6">
+          <button
+            onClick={() => navigate('/login')}
+            className="flex items-center justify-center gap-2 text-gray-600 text-xs font-bold tracking-widest hover:text-gray-400 transition mx-auto"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Return to Public Login
+          </button>
+        </div>
+
       </div>
     </div>
   );
 }
-
-const s = {
-  page: {
-    minHeight: '100vh',
-    backgroundColor: '#121212',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '32px 24px',
-    fontFamily: "'Inter', sans-serif",
-  },
-  logoWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 28,
-  },
-  logoIcon: {
-    color: '#9D50FF',
-    fontSize: 18,
-  },
-  logoText: {
-    color: '#fff',
-    fontFamily: "'Newsreader', serif",
-    fontSize: 20,
-    fontWeight: 600,
-    letterSpacing: '0.02em',
-  },
-  card: {
-    backgroundColor: '#1a1a1a',
-    border: '1px solid #2a2a2a',
-    borderRadius: 4,
-    padding: '36px 28px',
-    width: '100%',
-    maxWidth: 340,
-  },
-  heading: {
-    fontFamily: "'Newsreader', serif",
-    fontSize: 38,
-    fontWeight: 400,
-    color: '#fff',
-    margin: '0 0 12px 0',
-    lineHeight: 1.15,
-    whiteSpace: 'pre-line',
-  },
-  subheading: {
-    color: '#666',
-    fontSize: 13,
-    margin: '0 0 28px 0',
-    lineHeight: 1.6,
-  },
-  fieldGroup: {
-    marginBottom: 22,
-  },
-  label: {
-    display: 'block',
-    color: '#666',
-    fontSize: 10,
-    fontWeight: 600,
-    letterSpacing: '0.12em',
-    marginBottom: 10,
-  },
-  passwordHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  hardwareToken: {
-    color: '#9D50FF',
-    fontSize: 10,
-    fontWeight: 600,
-    letterSpacing: '0.08em',
-    cursor: 'pointer',
-  },
-  inputWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid #2e2e2e',
-    paddingBottom: 8,
-    gap: 10,
-  },
-  inputIcon: {
-    flexShrink: 0,
-  },
-  input: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: '#fff',
-    fontSize: 14,
-    outline: 'none',
-    fontFamily: "'Inter', sans-serif",
-  },
-  primaryBtn: {
-    width: '100%',
-    backgroundColor: '#9D50FF',
-    color: '#fff',
-    border: 'none',
-    borderRadius: 4,
-    padding: '15px',
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: '0.1em',
-    cursor: 'pointer',
-    marginTop: 8,
-    fontFamily: "'Inter', sans-serif",
-  },
-  btnInner: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  backLink: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    color: '#555',
-    fontSize: 11,
-    letterSpacing: '0.08em',
-    textDecoration: 'none',
-    marginTop: 24,
-    fontWeight: 500,
-  },
-};
