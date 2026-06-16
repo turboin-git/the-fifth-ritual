@@ -14,6 +14,8 @@ import SmartBooking from './pages/client/SmartBooking';
 import SelectArtist from './pages/client/SelectArtist';
 import AdminLogin from './pages/auth/AdminLogin';
 import AfterCare from './pages/client/AfterCare';
+import ConsentForm from './pages/client/ConsentForm';
+import Gallery from './pages/client/Gallery';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -68,6 +70,18 @@ function AppRoutes() {
           <SelectArtist />
         </ProtectedRoute>
       } />
+
+      <Route path="/consent-form" element={
+        <ProtectedRoute allowedRole="CLIENT">
+          <ConsentForm />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/gallery" element={
+  <ProtectedRoute allowedRole="CLIENT">
+    <Gallery />
+  </ProtectedRoute>
+} />
 
       <Route path="/care" element={
         <ProtectedRoute allowedRole="CLIENT">

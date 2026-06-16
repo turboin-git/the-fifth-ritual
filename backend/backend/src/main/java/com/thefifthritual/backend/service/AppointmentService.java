@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +38,14 @@ public class AppointmentService {
     );
 
     public List<String> getAvailableSlots(Long artistId, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
         List<Appointment> booked = appointmentRepository
-                .findByArtistIdAndAppointmentDate(artistId, date);
+                .findByArtistIdAndScheduledAtBetween(artistId, startOfDay, endOfDay);
 
         List<LocalTime> bookedTimes = booked.stream()
-                .map(Appointment::getTimeSlot)
+                .map(a -> a.getScheduledAt().toLocalTime())
                 .toList();
 
         List<String> available = new ArrayList<>();
@@ -56,8 +60,10 @@ public class AppointmentService {
     public Appointment bookAppointment(Long clientId, Long artistId,
                                        Long designId, LocalDate date,
                                        LocalTime timeSlot, String notes) {
+        LocalDateTime scheduledAt = LocalDateTime.of(date, timeSlot);
+
         boolean slotTaken = appointmentRepository
-                .existsByArtistIdAndAppointmentDateAndTimeSlot(artistId, date, timeSlot);
+                .existsByArtistIdAndScheduledAt(artistId, scheduledAt);
 
         if (slotTaken) {
             throw new RuntimeException("This time slot is already booked!");
@@ -73,14 +79,13 @@ public class AppointmentService {
             appointment.setDesign(
                     tattooDesignRepository.findById(designId).orElseThrow());
         }
-        appointment.setAppointmentDate(date);
-        appointment.setTimeSlot(timeSlot);
+        appointment.setScheduledAt(scheduledAt);
+        appointment.setDurationMins(60);
         appointment.setNotes(notes);
         appointment.setStatus(Appointment.Status.PENDING);
 
         Appointment saved = appointmentRepository.save(appointment);
 
-        // Send booking confirmation email
         try {
             String clientEmail = client.getUser().getEmail();
             String clientName = client.getUser().getName();
@@ -113,7 +118,8 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
-    public List<Appointment> getAllAppointments() {
+    public List<Appointment> getAllAppointments()
+    {
         return appointmentRepository.findAll();
     }
 }

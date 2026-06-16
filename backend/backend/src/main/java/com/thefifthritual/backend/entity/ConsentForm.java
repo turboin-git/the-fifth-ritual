@@ -16,25 +16,24 @@ public class ConsentForm {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = false, unique = true)
     private Client client;
 
-    @Column(name = "has_allergies")
+    @Column(name = "has_allergies", nullable = false)
     private Boolean hasAllergies = false;
 
     @Column(name = "allergy_details", columnDefinition = "TEXT")
     private String allergyDetails;
 
-    @Column(name = "medical_conditions", columnDefinition = "TEXT")
-    private String medicalConditions;
+    @Column(name = "has_conditions", nullable = false)
+    private Boolean hasConditions = false;
 
-    @Column(name = "legal_agreement")
-    private Boolean legalAgreement = false;
+    @Column(name = "conditions_details", columnDefinition = "TEXT")
+    private String conditionsDetails;
 
-    @Column(name = "signed_at")
+    @Column(name = "legal_agreed", nullable = false)
+    private Boolean legalAgreed = false;
+
+    @Column(name = "signed_at", nullable = false)
     private LocalDateTime signedAt = LocalDateTime.now();
 }

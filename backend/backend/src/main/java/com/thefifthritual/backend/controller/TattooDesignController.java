@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -15,41 +16,38 @@ public class TattooDesignController {
 
     private final TattooDesignService tattooDesignService;
 
-    // Get all designs (public)
     @GetMapping
     public ResponseEntity<List<TattooDesign>> getAllDesigns() {
         return ResponseEntity.ok(tattooDesignService.getAllDesigns());
     }
 
-    // Get designs by style
     @GetMapping("/style/{style}")
     public ResponseEntity<List<TattooDesign>> getByStyle(@PathVariable String style) {
         return ResponseEntity.ok(tattooDesignService.getDesignsByStyle(style));
     }
 
-    // Get designs by artist
     @GetMapping("/artist/{artistId}")
     public ResponseEntity<List<TattooDesign>> getByArtist(@PathVariable Long artistId) {
         return ResponseEntity.ok(tattooDesignService.getDesignsByArtist(artistId));
     }
 
-    // Create design with image upload (Artist only)
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<TattooDesign> createDesign(
             @RequestParam Long artistId,
-            @RequestParam(required = false) Long categoryId,
             @RequestParam String title,
             @RequestParam(required = false) String description,
             @RequestParam String style,
             @RequestParam(required = false) String size,
+            @RequestParam(required = false) String theme,
+            @RequestParam(required = false) BigDecimal price,
+            @RequestParam(required = false) BigDecimal durationHours,
             @RequestParam(required = false) MultipartFile image) {
 
         TattooDesign design = tattooDesignService.createDesign(
-                artistId, categoryId, title, description, style, size, image);
+                artistId, title, description, style, size, theme, price, durationHours, image);
         return ResponseEntity.ok(design);
     }
 
-    // Delete design
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDesign(@PathVariable Long id) {
         tattooDesignService.deleteDesign(id);
