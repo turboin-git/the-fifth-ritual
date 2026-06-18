@@ -16,6 +16,7 @@ import AdminLogin from './pages/auth/AdminLogin';
 import AfterCare from './pages/client/AfterCare';
 import ConsentForm from './pages/client/ConsentForm';
 import Gallery from './pages/client/Gallery';
+import PaymentCallback from './pages/client/PaymentCallback';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -80,6 +81,12 @@ function AppRoutes() {
       <Route path="/gallery" element={
   <ProtectedRoute allowedRole="CLIENT">
     <Gallery />
+  </ProtectedRoute>
+} />
+
+      <Route path="/payment/callback" element={
+  <ProtectedRoute allowedRole="CLIENT">
+    <PaymentCallback />
   </ProtectedRoute>
 } />
 

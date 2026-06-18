@@ -17,23 +17,38 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointment_id", nullable = false, unique = true)
     private Appointment appointment;
 
+    @Column(nullable = false)
     private BigDecimal amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Type type = Type.DEPOSIT;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gateway gateway;
 
     @Enumerated(EnumType.STRING)
     private Method method;
 
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
-
     @Column(name = "transaction_id")
     private String transactionId;
+
+    @Column(name = "pidx")
+    private String pidx;
 
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
-    public enum Method { ESEWA, KHALTI, CASH }
-    public enum Status { PENDING, COMPLETED, FAILED }
+    public enum Type { DEPOSIT, FULL }
+    public enum Status { PENDING, SUCCESS, FAILED, REFUNDED }
+    public enum Gateway { KHALTI, ESEWA, CASH }
+    public enum Method { CASH, ESEWA, KHALTI }
 }

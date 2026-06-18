@@ -12,6 +12,7 @@ const imageOverrides = {
 };
 
 const ALL_SLOTS = ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'];
+const DEPOSIT_AMOUNT = 50; // fixed deposit in NPR/USD for this demo
 
 export default function SmartBooking() {
   const navigate = useNavigate();
@@ -38,7 +39,8 @@ export default function SmartBooking() {
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [notes, setNotes] = useState('');
   const [booking, setBooking] = useState(false);
-  const [confirmed, setConfirmed] = useState(null);
+  const [createdAppointment, setCreatedAppointment] = useState(null);
+  const [redirectingToPay, setRedirectingToPay] = useState(false);
 
   // Check consent form first
   useEffect(() => {
@@ -93,7 +95,8 @@ export default function SmartBooking() {
     }
   }, [selectedDate, selectedArtist]);
 
-  const handleConfirmBooking = async () => {
+  // Step 4 -> creates the appointment (PENDING), then moves to payment step
+  const handleCreateBooking = async () => {
     setBooking(true);
     try {
       const res = await api.post('/appointments/book', {
@@ -104,13 +107,31 @@ export default function SmartBooking() {
         timeSlot: selectedSlot,
         notes,
       });
-      setConfirmed(res.data);
-      toast.success('Appointment booked successfully!');
+      setCreatedAppointment(res.data);
+      setStep(5);
+      toast.success('Appointment reserved! Complete deposit to confirm.');
     } catch (err) {
       const msg = err.response?.data?.message || err.response?.data?.error || 'Booking failed';
       toast.error(msg);
     } finally {
       setBooking(false);
+    }
+  };
+
+  // Step 5 -> automatically redirects to Khalti for deposit
+  const handlePayDeposit = async () => {
+    setRedirectingToPay(true);
+    try {
+      const res = await api.post('/payments/khalti/initiate', {
+        appointmentId: createdAppointment.id,
+        amount: DEPOSIT_AMOUNT,
+        type: 'DEPOSIT',
+      });
+      // Automatic redirect — no manual copying needed
+      window.location.href = res.data.paymentUrl;
+    } catch (err) {
+      toast.error('Could not start payment. Please try again.');
+      setRedirectingToPay(false);
     }
   };
 
@@ -148,40 +169,13 @@ export default function SmartBooking() {
     );
   }
 
-  // ===== CONFIRMATION SCREEN =====
-  if (confirmed) {
-    return (
-      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center px-6">
-        <div className="w-16 h-16 bg-green-600 bg-opacity-20 rounded-full flex items-center justify-center mb-6 border border-green-700">
-          <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h1 className="text-2xl font-bold mb-3">Booking Confirmed!</h1>
-        <p className="text-gray-500 text-sm text-center mb-2 leading-relaxed max-w-sm">
-          Your appointment with <span className="text-purple-400 font-semibold">{selectedArtist?.name}</span> is set for
-        </p>
-        <p className="text-white font-bold mb-8">{selectedDate} at {selectedSlot}</p>
-        <p className="text-gray-600 text-xs text-center mb-8 max-w-sm">
-          A confirmation email has been sent to you. You can manage this booking from your Dashboard.
-        </p>
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-xl transition w-full max-w-sm"
-        >
-          Back to Dashboard
-        </button>
-      </div>
-    );
-  }
-
   // ===== MAIN WIZARD =====
   return (
     <div className="min-h-screen bg-gray-950 text-white pb-10">
 
       {/* Header */}
       <div className="flex items-center gap-3 px-5 pt-12 pb-4">
-        {step > 1 ? (
+        {step > 1 && step < 5 ? (
           <button onClick={() => setStep(step - 1)} className="text-gray-400 hover:text-white transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -203,14 +197,14 @@ export default function SmartBooking() {
 
         {/* Step Indicator */}
         <div className="flex items-center gap-2 mb-8 overflow-x-auto">
-          {['ARTIST', 'DESIGN', 'DATE & TIME', 'CONFIRM'].map((label, i) => (
+          {['ARTIST', 'DESIGN', 'DATE & TIME', 'REVIEW', 'PAYMENT'].map((label, i) => (
             <div key={i} className="flex items-center gap-2 flex-shrink-0">
               <div className={`text-xs font-bold tracking-widest ${
                 step === i + 1 ? 'text-white border-b-2 border-purple-500 pb-1' : 'text-gray-600'
               }`}>
                 {i + 1}. {label}
               </div>
-              {i < 3 && <div className="w-4 h-px bg-gray-700" />}
+              {i < 4 && <div className="w-4 h-px bg-gray-700" />}
             </div>
           ))}
         </div>
@@ -366,7 +360,7 @@ export default function SmartBooking() {
           </div>
         )}
 
-        {/* STEP 4 — CONFIRM */}
+        {/* STEP 4 — REVIEW & CREATE BOOKING */}
         {step === 4 && (
           <div className="space-y-4">
             <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800 space-y-4">
@@ -388,13 +382,60 @@ export default function SmartBooking() {
               </div>
             </div>
 
+            <div className="flex items-start gap-3 bg-purple-600 bg-opacity-10 border border-purple-800 rounded-xl p-4">
+              <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-purple-300 text-xs leading-relaxed">
+                A ${DEPOSIT_AMOUNT} deposit is required to confirm your slot. You'll pay this securely via Khalti on the next step.
+              </p>
+            </div>
+
             <button
-              onClick={handleConfirmBooking}
+              onClick={handleCreateBooking}
               disabled={booking}
               className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold tracking-widest py-3 rounded-xl text-xs transition"
             >
-              {booking ? 'CONFIRMING...' : 'CONFIRM BOOKING'}
+              {booking ? 'RESERVING SLOT...' : 'RESERVE SLOT & CONTINUE →'}
             </button>
+          </div>
+        )}
+
+        {/* STEP 5 — PAYMENT */}
+        {step === 5 && createdAppointment && (
+          <div className="space-y-5">
+            <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800 text-center">
+              <div className="w-12 h-12 bg-green-600 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-700">
+                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h2 className="text-lg font-bold mb-1">Slot Reserved!</h2>
+              <p className="text-gray-500 text-xs mb-4">
+                Appointment #{createdAppointment.id} • {selectedDate} at {selectedSlot}
+              </p>
+              <div className="bg-gray-800 rounded-xl p-4 mb-5">
+                <p className="text-gray-500 text-xs font-bold tracking-widest mb-1">DEPOSIT DUE</p>
+                <p className="text-3xl font-bold text-purple-400">${DEPOSIT_AMOUNT}</p>
+              </div>
+              <button
+                onClick={handlePayDeposit}
+                disabled={redirectingToPay}
+                className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold tracking-widest py-4 rounded-xl text-sm transition flex items-center justify-center gap-2"
+              >
+                {redirectingToPay ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    REDIRECTING TO KHALTI...
+                  </>
+                ) : (
+                  'PAY DEPOSIT WITH KHALTI →'
+                )}
+              </button>
+              <p className="text-gray-600 text-xs mt-4">
+                You'll be redirected to Khalti's secure checkout and brought back here automatically.
+              </p>
+            </div>
           </div>
         )}
 
