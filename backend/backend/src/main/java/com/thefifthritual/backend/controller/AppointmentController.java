@@ -65,4 +65,10 @@ public class AppointmentController {
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancelAppointment(@PathVariable Long id) {
+        appointmentService.updateStatus(id, Appointment.Status.CANCELLED);
+        return ResponseEntity.noContent().build();
+    }
 }

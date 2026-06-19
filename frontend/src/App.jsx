@@ -21,6 +21,8 @@ import Contact from './pages/public/Contact';
 import About from './pages/public/About';
 import ManageDesigns from './pages/admin/ManageDesigns';
 import ManageArtists from './pages/admin/ManageArtists';
+import ManageClients from './pages/admin/ManageClients';
+import ContactMessages from './pages/admin/ContactMessages';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -89,9 +91,23 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
+      <Route path="/admin/clients" element={
+        <ProtectedRoute allowedRole="ADMIN">
+          <ManageClients />
+        
+        </ProtectedRoute>
+      } />
+
       <Route path="/admin/designs" element={
         <ProtectedRoute allowedRole="ADMIN">
           <ManageDesigns />
+        </ProtectedRoute>
+      } />
+
+
+      <Route path="/admin/messages" element={
+        <ProtectedRoute allowedRole="ADMIN">
+           <ContactMessages />
         </ProtectedRoute>
       } />
 
