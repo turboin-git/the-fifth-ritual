@@ -21,6 +21,11 @@ public class TattooDesignController {
         return ResponseEntity.ok(tattooDesignService.getAllDesigns());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TattooDesign> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(tattooDesignService.getById(id));
+    }
+
     @GetMapping("/style/{style}")
     public ResponseEntity<List<TattooDesign>> getByStyle(@PathVariable String style) {
         return ResponseEntity.ok(tattooDesignService.getDesignsByStyle(style));
@@ -45,6 +50,23 @@ public class TattooDesignController {
 
         TattooDesign design = tattooDesignService.createDesign(
                 artistId, title, description, style, size, theme, price, durationHours, image);
+        return ResponseEntity.ok(design);
+    }
+
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<TattooDesign> updateDesign(
+            @PathVariable Long id,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String style,
+            @RequestParam(required = false) String size,
+            @RequestParam(required = false) String theme,
+            @RequestParam(required = false) BigDecimal price,
+            @RequestParam(required = false) BigDecimal durationHours,
+            @RequestParam(required = false) MultipartFile image) {
+
+        TattooDesign design = tattooDesignService.updateDesign(
+                id, title, description, style, size, theme, price, durationHours, image);
         return ResponseEntity.ok(design);
     }
 

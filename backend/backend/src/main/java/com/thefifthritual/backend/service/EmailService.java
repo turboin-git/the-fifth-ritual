@@ -93,6 +93,21 @@ public class EmailService {
         }
     }
 
+    @Async
+    public void sendContactNotificationEmail(String name, String email, String subject, String message) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setTo("smoothoperator561@gmail.com");
+            helper.setSubject("New Contact Message: " + (subject != null ? subject : "General Inquiry"));
+            helper.setText(buildContactEmail(name, email, subject, message), true);
+            mailSender.send(mimeMessage);
+            log.info("Contact notification email sent for message from: {}", email);
+        } catch (Exception e) {
+            log.error("Failed to send contact notification email: {}", e.getMessage());
+        }
+    }
+
     // ===== EMAIL TEMPLATES =====
 
     private String buildWelcomeEmail(String name) {
@@ -113,7 +128,7 @@ public class EmailService {
                     <div style="margin:25px 0;padding:20px;background:#1a1a1a;border-radius:12px;border-left:4px solid #7c3aed;">
                         <p style="color:#fff;margin:0;">Start by browsing our Flash Collection or booking your first session with one of our resident artists.</p>
                     </div>
-                    <a href="http://localhost:5173/catalog"
+                    <a href="http://localhost:5173/gallery"
                        style="display:inline-block;background:#7c3aed;color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:bold;">
                         Browse Flash Collection →
                     </a>
@@ -245,5 +260,38 @@ public class EmailService {
             </body>
             </html>
             """.formatted(name, resetLink);
+    }
+
+    private String buildContactEmail(String name, String email, String subject, String message) {
+        return """
+        <!DOCTYPE html>
+        <html>
+        <body style="background:#000;color:#fff;font-family:serif;padding:40px;max-width:500px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:30px;">
+                <h1 style="color:#7c3aed;font-size:2rem;">The Fifth Ritual</h1>
+                <p style="color:#9ca3af;">New Contact Message</p>
+            </div>
+            <div style="background:#111;border-radius:16px;padding:30px;border:1px solid #333;">
+                <table style="width:100%%;margin-bottom:20px;">
+                    <tr>
+                        <td style="color:#9ca3af;padding:8px 0;">From</td>
+                        <td style="color:#fff;font-weight:bold;text-align:right;">%s</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#9ca3af;padding:8px 0;">Email</td>
+                        <td style="color:#fff;font-weight:bold;text-align:right;">%s</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#9ca3af;padding:8px 0;">Subject</td>
+                        <td style="color:#fff;font-weight:bold;text-align:right;">%s</td>
+                    </tr>
+                </table>
+                <div style="padding:15px;background:#1a1a1a;border-radius:12px;">
+                    <p style="color:#fff;margin:0;line-height:1.6;">%s</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """.formatted(name, email, subject != null ? subject : "N/A", message);
     }
 }

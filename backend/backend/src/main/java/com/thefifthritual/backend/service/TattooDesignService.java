@@ -23,6 +23,11 @@ public class TattooDesignService {
         return tattooDesignRepository.findAll();
     }
 
+    public TattooDesign getById(Long id) {
+        return tattooDesignRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Design not found"));
+    }
+
     public List<TattooDesign> getDesignsByStyle(String style) {
         return tattooDesignRepository.findByStyle(style);
     }
@@ -56,13 +61,20 @@ public class TattooDesignService {
         return tattooDesignRepository.save(design);
     }
 
-    public TattooDesign updateDesign(Long id, MultipartFile imageFile,
-                                     String title, String description) {
+    public TattooDesign updateDesign(Long id, String title, String description,
+                                     String style, String size, String theme,
+                                     BigDecimal price, BigDecimal durationHours,
+                                     MultipartFile imageFile) {
         TattooDesign design = tattooDesignRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Design not found"));
 
         if (title != null) design.setTitle(title);
         if (description != null) design.setDescription(description);
+        if (style != null) design.setStyle(style);
+        if (size != null) design.setSize(size);
+        if (theme != null) design.setTheme(theme);
+        if (price != null) design.setPrice(price);
+        if (durationHours != null) design.setDurationHours(durationHours);
 
         if (imageFile != null && !imageFile.isEmpty()) {
             if (design.getImageUrl() != null) {

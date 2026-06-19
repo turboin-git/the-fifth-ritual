@@ -8,8 +8,8 @@ export default function BottomNav() {
 
   const clientTabs = [
     { label: 'Studio', icon: '⊞', path: '/dashboard' },
-    { label: 'Booking', icon: '📅', path: '/book' },
-    { label: 'Gallery', icon: '🎨', path: '/catalog' },
+    { label: 'Booking', icon: '📅', path: '/booking' },
+    { label: 'Gallery', icon: '🎨', path: '/gallery' },
     { label: 'Care', icon: '🛡', path: '/care' },
   ];
 
@@ -24,7 +24,7 @@ export default function BottomNav() {
   const adminTabs = [
     { label: 'Studio', icon: '⊞', path: '/admin' },
     { label: 'Booking', icon: '📅', path: '/admin/bookings' },
-    { label: 'Gallery', icon: '🎨', path: '/catalog' },
+    { label: 'Gallery', icon: '🎨', path: '/gallery' },
     { label: 'Stock', icon: '📦', path: '/operations' },
   ];
 

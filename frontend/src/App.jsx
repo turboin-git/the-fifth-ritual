@@ -8,7 +8,6 @@ import Register from './pages/auth/Register';
 import ClientDashboard from './pages/client/Dashboard';
 import ArtistDashboard from './pages/artist/Dashboard';
 import AdminDashboard from './pages/admin/Dashboard';
-import Catalog from './pages/public/Catalog';
 import UploadGallery from './pages/artist/UploadGallery';
 import SmartBooking from './pages/client/SmartBooking';
 import SelectArtist from './pages/client/SelectArtist';
@@ -17,6 +16,11 @@ import AfterCare from './pages/client/AfterCare';
 import ConsentForm from './pages/client/ConsentForm';
 import Gallery from './pages/client/Gallery';
 import PaymentCallback from './pages/client/PaymentCallback';
+import Home from './pages/public/Home';
+import Contact from './pages/public/Contact';
+import About from './pages/public/About';
+import ManageDesigns from './pages/admin/ManageDesigns';
+import ManageArtists from './pages/admin/ManageArtists';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -28,13 +32,14 @@ function ProtectedRoute({ children, allowedRole }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/catalog" element={<Catalog />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/about" element={<About />} />
 
       <Route path="/dashboard" element={
         <ProtectedRoute allowedRole="CLIENT">
@@ -79,14 +84,26 @@ function AppRoutes() {
       } />
 
       <Route path="/gallery" element={
-  <ProtectedRoute allowedRole="CLIENT">
-    <Gallery />
-  </ProtectedRoute>
-} />
+        <ProtectedRoute allowedRole="CLIENT">
+         <Gallery />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin/designs" element={
+        <ProtectedRoute allowedRole="ADMIN">
+          <ManageDesigns />
+        </ProtectedRoute>
+      } />
 
       <Route path="/payment/callback" element={
   <ProtectedRoute allowedRole="CLIENT">
     <PaymentCallback />
+  </ProtectedRoute>
+} />
+
+<Route path="/admin/artists" element={
+  <ProtectedRoute allowedRole="ADMIN">
+    <ManageArtists />
   </ProtectedRoute>
 } />
 
