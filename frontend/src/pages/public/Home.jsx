@@ -42,36 +42,36 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
 
-     {/* NAV */}
-<nav className="sticky top-0 z-50 bg-gray-950 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
-  <div className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
-    <div className="flex items-center gap-2.5">
-      <div className="w-7 h-7 bg-purple-600 rounded-md flex items-center justify-center text-xs font-bold">
-        TF
-      </div>
-      <span className="font-serif font-bold text-base tracking-wide">The Fifth Ritual</span>
-    </div>
-    <div className="hidden md:flex items-center gap-10 text-sm text-gray-400">
-      <button onClick={() => navigate('/about')} className="hover:text-white transition">About</button>
-      < button onClick={() => navigate('/register')} className="hover:text-white transition">Designs</button>
-      <button onClick={() => navigate('/contact')} className="hover:text-white transition">Contact</button>
-    </div>
-    <div className="flex items-center gap-3">
-      <button
-        onClick={() => navigate('/login')}
-        className="hidden sm:block text-gray-400 hover:text-white text-sm font-medium transition"
-      >
-        Sign In
-      </button>
-      <button
-        onClick={() => navigate('/register')}
-        className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold tracking-widest px-4 py-2 rounded-lg transition"
-      >
-        GET STARTED
-      </button>
-    </div>
-  </div>
-</nav>
+      {/* NAV */}
+      <nav className="sticky top-0 z-50 bg-gray-950 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+        <div className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
+            <div className="w-7 h-7 bg-purple-600 rounded-md flex items-center justify-center text-xs font-bold">
+              TF
+            </div>
+            <span className="font-serif font-bold text-base tracking-wide">The Fifth Ritual</span>
+          </div>
+          <div className="hidden md:flex items-center gap-10 text-sm text-gray-400">
+            <button onClick={() => navigate('/about')} className="hover:text-white transition">About</button>
+            <button onClick={() => navigate('/gallery')} className="hover:text-white transition">Designs</button>
+            <button onClick={() => navigate('/contact')} className="hover:text-white transition">Contact</button>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/login')}
+              className="hidden sm:block text-gray-400 hover:text-white text-sm font-medium transition"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate('/register')}
+              className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold tracking-widest px-4 py-2 rounded-lg transition"
+            >
+              GET STARTED
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* HERO */}
       <section className="relative px-6 py-16 md:py-24 max-w-6xl mx-auto text-center">
@@ -94,7 +94,7 @@ export default function Home() {
             BOOK APPOINTMENT
           </button>
           <button
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/gallery')}
             className="border border-gray-700 hover:border-gray-500 text-white font-bold tracking-widest px-8 py-4 rounded-xl text-sm transition"
           >
             EXPLORE DESIGNS
@@ -117,7 +117,7 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl md:text-3xl font-serif font-bold">Featured Designs</h2>
-          <button onClick={() => navigate('/register')} className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">
+          <button onClick={() => navigate('/gallery')} className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">
             View All →
           </button>
         </div>
@@ -126,7 +126,7 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {designs.map((design) => (
-              <div key={design.id} className="group cursor-pointer" onClick={() => navigate('/register')}>
+              <div key={design.id} className="group cursor-pointer" onClick={() => navigate('/gallery')}>
                 <div className="aspect-square rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 mb-3">
                   <img
                     src={imageOverrides[design.title] || design.imageUrl}
@@ -201,10 +201,10 @@ export default function Home() {
             { name: 'Marcus R.', text: 'The booking process was seamless and the aftercare tracking actually helped me heal faster.' },
             { name: 'Sarah J.', text: 'My artist understood exactly what I wanted. The consent form process felt very professional.' },
             { name: 'Aiden K.', text: 'Paid my deposit through Khalti in seconds. No back and forth, just a clean experience.' },
-          ].map((t) => (
-            <div key={t.name} className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-              <p className="text-gray-300 text-sm leading-relaxed mb-4">"{t.text}"</p>
-              <p className="text-purple-400 text-xs font-bold tracking-widest">{t.name}</p>
+          ].map((item) => (
+            <div key={item.name} className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+              <p className="text-gray-300 text-sm leading-relaxed mb-4">"{item.text}"</p>
+              <p className="text-purple-400 text-xs font-bold tracking-widest">{item.name}</p>
             </div>
           ))}
         </div>
