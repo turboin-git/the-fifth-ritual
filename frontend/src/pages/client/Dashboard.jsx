@@ -1,11 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import api from '../../api/axios';
+import toast from 'react-hot-toast';
 
 export default function ClientDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('booking');
+  const [clientId, setClientId] = useState(null);
+
+  useEffect(() => {
+    const fetchClientId = async () => {
+      try {
+        const res = await api.get(`/clients/profile/${user.userId}`);
+        setClientId(res.data.clientId);
+      } catch (err) {
+        console.error('Could not fetch client profile');
+      }
+    };
+    if (user?.userId) fetchClientId();
+  }, [user]);
+
+  const downloadReport = async () => {
+    if (!clientId) {
+      toast.error('Client ID not found');
+      return;
+    }
+    try {
+      const res = await api.get(`/reports/client/${clientId}/pdf`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', 'my_booking_history.pdf');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast.success('Report downloaded!');
+    } catch (err) {
+      toast.error('Failed to download report');
+    }
+  };
 
   const upcomingSession = {
     title: 'Geometric Sleeve - Session 3',
@@ -19,9 +53,9 @@ export default function ClientDashboard() {
     day: 4,
     title: 'Minimalist Forearm Band',
     steps: [
-      { icon: '💧', text: 'Wash gently with unscented antibacterial soap 2x daily.' },
-      { icon: '🧴', text: 'Apply a paper-thin layer of provided aftercare balm.' },
-      { icon: '☀️', text: 'Avoid direct sunlight and submerged water.' },
+      { text: 'Wash gently with unscented antibacterial soap 2x daily.' },
+      { text: 'Apply a paper-thin layer of provided aftercare balm.' },
+      { text: 'Avoid direct sunlight and submerged water.' },
     ],
   };
 
@@ -65,9 +99,7 @@ export default function ClientDashboard() {
         {/* Title */}
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-1">
-            Your upcoming sessions and recent activity.
-          </p>
+          <p className="text-gray-500 text-sm mt-1">Your upcoming sessions and recent activity.</p>
         </div>
 
         {/* Upcoming Session Card */}
@@ -76,22 +108,15 @@ export default function ClientDashboard() {
             <span className="bg-purple-600 text-white text-xs font-bold tracking-widest px-3 py-1 rounded-sm">
               ▪ {upcomingSession.status}
             </span>
-            <span className="text-gray-500 text-xs font-bold tracking-widest">
-              UPCOMING SESSION
-            </span>
+            <span className="text-gray-500 text-xs font-bold tracking-widest">UPCOMING SESSION</span>
           </div>
-
-          <h2 className="text-2xl font-bold mb-2 leading-tight">
-            {upcomingSession.title}
-          </h2>
-
+          <h2 className="text-2xl font-bold mb-2 leading-tight">{upcomingSession.title}</h2>
           <div className="flex items-center gap-2 text-gray-400 text-sm mb-4">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span>with Artist {upcomingSession.artist}</span>
           </div>
-
           <div className="grid grid-cols-2 gap-3 mb-5">
             <div className="bg-gray-800 rounded-xl p-3">
               <p className="text-gray-500 text-xs font-bold tracking-widest mb-1">DATE</p>
@@ -102,19 +127,29 @@ export default function ClientDashboard() {
               <p className="text-white font-semibold text-sm">{upcomingSession.time}</p>
             </div>
           </div>
-
           <div className="grid grid-cols-2 gap-3">
-           <button
-           onClick={() => navigate('/consent-form')}
-            className="w-full mt-3 border border-purple-700 text-purple-400 hover:bg-purple-600 hover:text-white font-bold tracking-widest py-3 rounded-xl text-xs transition"
+            <button
+              onClick={() => navigate('/consent-form')}
+              className="border border-purple-700 text-purple-400 hover:bg-purple-600 hover:text-white font-bold tracking-widest py-3 rounded-xl text-xs transition"
             >
-              COMPLETE HEALTH & CONSENT FORM
-              </button>
+              CONSENT FORM
+            </button>
             <button className="border border-gray-700 hover:border-gray-500 text-white font-bold tracking-widest py-3 rounded-xl text-xs transition">
               VIEW DETAILS
             </button>
           </div>
         </div>
+
+        {/* Download Report Button */}
+        <button
+          onClick={downloadReport}
+          className="w-full border border-purple-700 text-purple-400 hover:bg-purple-600 hover:text-white font-bold tracking-widest py-3 rounded-xl text-xs transition flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          DOWNLOAD MY BOOKING HISTORY (PDF)
+        </button>
 
         {/* Aftercare Card */}
         <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800">
@@ -124,12 +159,10 @@ export default function ClientDashboard() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
             </svg>
           </div>
-
           <p className="text-green-400 text-xs font-bold tracking-widest mb-1">
             ACTIVE HEALING: DAY {aftercare.day}
           </p>
           <p className="text-white font-semibold mb-4">{aftercare.title}</p>
-
           <div className="space-y-3 mb-4">
             {aftercare.steps.map((step, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -140,7 +173,6 @@ export default function ClientDashboard() {
               </div>
             ))}
           </div>
-
           <button className="w-full border border-gray-700 hover:border-gray-500 text-white font-bold tracking-widest py-3 rounded-xl text-xs transition">
             FULL CARE GUIDE
           </button>
@@ -150,26 +182,16 @@ export default function ClientDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold">Booking History</h2>
-            <button className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">
-              VIEW ALL
-            </button>
+            <button className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">VIEW ALL</button>
           </div>
-
           <div className="space-y-0">
             {bookingHistory.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between py-4 border-b border-gray-800 last:border-0"
-              >
+              <div key={i} className="flex items-center justify-between py-4 border-b border-gray-800 last:border-0">
                 <div>
                   <p className="text-white font-semibold text-sm">{item.title}</p>
-                  <p className="text-gray-500 text-xs mt-0.5">
-                    {item.artist} — {item.status}
-                  </p>
+                  <p className="text-gray-500 text-xs mt-0.5">{item.artist} — {item.status}</p>
                 </div>
-                <span className="text-gray-600 text-xs font-bold tracking-widest">
-                  {item.date}
-                </span>
+                <span className="text-gray-600 text-xs font-bold tracking-widest">{item.date}</span>
               </div>
             ))}
           </div>
@@ -179,20 +201,13 @@ export default function ClientDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold">Inspiration Gallery</h2>
-            <button className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">
-              MANAGE
-            </button>
+            <button className="text-purple-400 text-sm font-semibold hover:text-purple-300 transition">MANAGE</button>
           </div>
-
           <div className="grid grid-cols-2 gap-2">
             {galleryImages.map((img, i) => (
               <div key={i} className="aspect-square rounded-xl overflow-hidden bg-gray-800">
-                <img
-                  src={img}
-                  alt={`gallery-${i}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.style.display = 'none'; }}
-                />
+                <img src={img} alt={`gallery-${i}`} className="w-full h-full object-cover"
+                  onError={(e) => { e.target.style.display = 'none'; }} />
               </div>
             ))}
             <button
@@ -210,39 +225,14 @@ export default function ClientDashboard() {
       {/* Bottom Nav */}
       <div className="fixed bottom-0 left-0 right-0 bg-gray-950 border-t border-gray-800 px-6 py-3 flex justify-around">
         {[
-          { icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
-          ), label: 'Studio', path: '/dashboard', active: false },
-          { icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          ), label: 'Booking', path: '/booking', active: true },
-          { icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          ), label: 'Gallery', path: '/gallery', active: false },
-          { icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          ), label: 'Care', path: '/care', active: false },
-         { icon: (
-           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-), label: 'Artists', path: '/select-artist', active: false },
+          { icon: (<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>), label: 'Studio', path: '/dashboard' },
+          { icon: (<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>), label: 'Booking', path: '/booking' },
+          { icon: (<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>), label: 'Gallery', path: '/gallery' },
+          { icon: (<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>), label: 'Care', path: '/care' },
+          { icon: (<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>), label: 'Artists', path: '/select-artist' },
         ].map((item) => (
-          <button
-            key={item.label}
-            onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center gap-1 text-xs font-bold tracking-widest ${
-              item.active ? 'text-purple-400' : 'text-gray-600 hover:text-gray-400'
-            } transition`}
-          >
+          <button key={item.label} onClick={() => navigate(item.path)}
+            className="flex flex-col items-center gap-1 text-xs font-bold tracking-widest text-gray-600 hover:text-gray-400 transition">
             {item.icon}
             {item.label}
           </button>

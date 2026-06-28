@@ -8,10 +8,13 @@ export default function ManageClients() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setselectedClient] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [loadingAppts, setLoadingAppts] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editForm, setEditForm] = useState({ fullName: '', email: '', phone: '', medicalNotes: '', dateOfBirth: '' });
+  const [saving, setSaving] = useState(false);
 
   const fetchClients = () => {
     setLoading(true);
@@ -24,7 +27,7 @@ export default function ManageClients() {
   useEffect(() => { fetchClients(); }, []);
 
   const openClient = async (client) => {
-    setSelectedClient(client);
+    setselectedClient(client);
     setLoadingAppts(true);
     try {
       const res = await api.get(`/appointments/client/${client.id}`);
@@ -33,6 +36,42 @@ export default function ManageClients() {
       setAppointments([]);
     } finally {
       setLoadingAppts(false);
+    }
+  };
+
+  const openEditModal = () => {
+    setEditForm({
+      fullName: selectedClient.user?.name || '',
+      email: selectedClient.user?.email || '',
+      phone: selectedClient.user?.phone || '',
+      medicalNotes: selectedClient.medicalNotes || '',
+      dateOfBirth: selectedClient.dateOfBirth || ''
+    });
+    setShowEditModal(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editForm.fullName || !editForm.email) {
+      toast.error('Name and email are required');
+      return;
+    }
+    setSaving(true);
+    try {
+      await api.put(`/admin/clients/${selectedClient.id}`, editForm);
+      toast.success('Client updated');
+      setShowEditModal(false);
+      fetchClients();
+      // Update selectedClient display
+      setselectedClient(prev => ({
+        ...prev,
+        user: { ...prev.user, fullName: editForm.fullName, email: editForm.email, phone: editForm.phone },
+        medicalNotes: editForm.medicalNotes,
+        dateOfBirth: editForm.dateOfBirth
+      }));
+    } catch {
+      toast.error('Failed to update client');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -53,7 +92,7 @@ export default function ManageClients() {
     try {
       await api.delete(`/admin/clients/${selectedClient.id}`);
       toast.success('Client account deleted');
-      setSelectedClient(null);
+      setselectedClient(null);
       fetchClients();
     } catch {
       toast.error('Failed to delete client');
@@ -63,7 +102,7 @@ export default function ManageClients() {
   };
 
   const filtered = clients.filter(c =>
-    c.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+    c.user?.fullName?.toLowerCase().includes(search.toLowerCase()) ||
     c.user?.email?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -83,7 +122,6 @@ export default function ManageClients() {
       <div className="px-5">
         <h1 className="text-3xl font-bold mt-2 mb-6">Clients</h1>
 
-        {/* Search */}
         <div className="relative mb-6">
           <svg className="w-4 h-4 text-gray-500 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -124,9 +162,7 @@ export default function ManageClients() {
                   )}
                 </div>
                 <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                  <span className="text-xs font-bold tracking-widest px-3 py-1 rounded-full bg-blue-900 text-blue-300">
-                    CLIENT
-                  </span>
+                  <span className="text-xs font-bold tracking-widest px-3 py-1 rounded-full bg-blue-900 text-blue-300">CLIENT</span>
                   <span className="text-gray-600 text-xs">ID #{client.id}</span>
                 </div>
               </button>
@@ -135,23 +171,29 @@ export default function ManageClients() {
         )}
 
         {!loading && (
-          <p className="text-gray-600 text-xs text-center mt-6">
-            {filtered.length} of {clients.length} clients
-          </p>
+          <p className="text-gray-600 text-xs text-center mt-6">{filtered.length} of {clients.length} clients</p>
         )}
       </div>
 
       {/* Client Detail Drawer */}
       {selectedClient && (
-      <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4">
           <div className="bg-gray-900 rounded-2xl border border-gray-800 w-full max-w-lg max-h-[85vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-bold text-lg">{selectedClient.user?.name}</h2>
-              <button onClick={() => setSelectedClient(null)} className="text-gray-500 hover:text-white transition">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={openEditModal}
+                  className="text-xs font-bold tracking-widest px-3 py-1.5 rounded-lg border border-purple-700 text-purple-400 hover:bg-purple-900 hover:bg-opacity-30 transition"
+                >
+                  EDIT
+                </button>
+                <button onClick={() => setselectedClient(null)} className="text-gray-500 hover:text-white transition">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div className="bg-gray-800 rounded-2xl p-4 space-y-2 mb-5">
@@ -162,6 +204,14 @@ export default function ManageClients() {
               <div className="flex justify-between">
                 <span className="text-gray-500 text-xs font-bold tracking-widest">PHONE</span>
                 <span className="text-sm text-gray-200">{selectedClient.user?.phone || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 text-xs font-bold tracking-widest">DATE OF BIRTH</span>
+                <span className="text-sm text-gray-200">{selectedClient.dateOfBirth || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 text-xs font-bold tracking-widest">MEDICAL NOTES</span>
+                <span className="text-sm text-gray-200 text-right max-w-xs">{selectedClient.medicalNotes || 'None'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500 text-xs font-bold tracking-widest">CLIENT ID</span>
@@ -184,9 +234,7 @@ export default function ManageClients() {
                       <p className="text-sm font-semibold">
                         {appt.scheduledAt ? new Date(appt.scheduledAt).toLocaleDateString() : 'N/A'}
                       </p>
-                      <p className="text-gray-500 text-xs">
-                        with {appt.artist?.user?.name || 'Unknown Artist'}
-                      </p>
+                      <p className="text-gray-500 text-xs">with {appt.artist?.user?.fullName || 'Unknown Artist'}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`text-xs font-bold px-2 py-1 rounded-full ${
@@ -194,9 +242,7 @@ export default function ManageClients() {
                         appt.status === 'PENDING' ? 'bg-yellow-900 text-yellow-300' :
                         appt.status === 'CANCELLED' ? 'bg-red-900 text-red-300' :
                         'bg-gray-700 text-gray-400'
-                      }`}>
-                        {appt.status}
-                      </span>
+                      }`}>{appt.status}</span>
                       {appt.status !== 'CANCELLED' && appt.status !== 'COMPLETED' && (
                         <button
                           onClick={() => handleCancelAppointment(appt.id)}
@@ -221,12 +267,90 @@ export default function ManageClients() {
                 {deleting ? 'DELETING...' : 'DELETE CLIENT ACCOUNT'}
               </button>
             </div>
-
           </div>
         </div>
       )}
 
+      {/* Edit Client Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-[60] flex items-center justify-center px-4">
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 w-full max-w-md p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-bold text-lg">Edit Client</h2>
+              <button onClick={() => setShowEditModal(false)} className="text-gray-500 hover:text-white transition">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs font-bold tracking-widest text-gray-400 block mb-1">FULL NAME *</label>
+                <input
+                  type="text"
+                  value={editForm.fullName}
+                  onChange={e => setEditForm({ ...editForm, fullName: e.target.value })}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold tracking-widest text-gray-400 block mb-1">EMAIL *</label>
+                <input
+                  type="email"
+                  value={editForm.email}
+                  onChange={e => setEditForm({ ...editForm, email: e.target.value })}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold tracking-widest text-gray-400 block mb-1">PHONE</label>
+                <input
+                  type="text"
+                  value={editForm.phone}
+                  onChange={e => setEditForm({ ...editForm, phone: e.target.value })}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold tracking-widest text-gray-400 block mb-1">DATE OF BIRTH</label>
+                <input
+                  type="text"
+                  value={editForm.dateOfBirth}
+                  onChange={e => setEditForm({ ...editForm, dateOfBirth: e.target.value })}
+                  placeholder="e.g. 1995-06-15"
+                  className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold tracking-widest text-gray-400 block mb-1">MEDICAL NOTES</label>
+                <textarea
+                  value={editForm.medicalNotes}
+                  onChange={e => setEditForm({ ...editForm, medicalNotes: e.target.value })}
+                  rows={3}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowEditModal(false)}
+                className="flex-1 border border-gray-700 text-gray-400 font-bold tracking-widest py-3 rounded-xl text-xs hover:bg-gray-800 transition"
+              >
+                CANCEL
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                disabled={saving}
+                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold tracking-widest py-3 rounded-xl text-xs transition disabled:opacity-50"
+              >
+                {saving ? 'SAVING...' : 'SAVE CHANGES'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-

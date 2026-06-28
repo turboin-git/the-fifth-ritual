@@ -1,25 +1,57 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import api from '../../api/axios';
+import toast from 'react-hot-toast';
 
 export default function ArtistDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [time, setTime] = useState(0);
-  const [stateOfMind, setStateOfMind] = useState({
-    cognitive: 'OPTIMAL',
-    strain: 'ELEVATED',
-  });
+  const [artistId, setArtistId] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(t => t + 1), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const fetchArtistId = async () => {
+      try {
+        const res = await api.get('/artists/approved');
+        const artist = res.data.find(a => a.name === user?.name);
+        if (artist) setArtistId(artist.id);
+      } catch (err) {
+        console.error('Could not fetch artist ID');
+      }
+    };
+    if (user?.name) fetchArtistId();
+  }, [user]);
+
   const formatTime = (s) => {
     const m = Math.floor(s / 60).toString().padStart(2, '0');
     const sec = (s % 60).toString().padStart(2, '0');
     return `${m}:${sec}`;
+  };
+
+  const downloadReport = async () => {
+    if (!artistId) {
+      toast.error('Artist ID not found');
+      return;
+    }
+    try {
+      const res = await api.get(`/reports/artist/${artistId}/pdf`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', 'my_booking_report.pdf');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast.success('Report downloaded!');
+    } catch (err) {
+      toast.error('Failed to download report');
+    }
   };
 
   const schedule = [
@@ -57,6 +89,17 @@ export default function ArtistDashboard() {
       </div>
 
       <div className="px-5 space-y-4">
+
+        {/* Download Report Button */}
+        <button
+          onClick={downloadReport}
+          className="w-full border border-purple-700 text-purple-400 hover:bg-purple-600 hover:text-white font-bold tracking-widest py-3 rounded-xl text-xs transition flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          DOWNLOAD MY BOOKING REPORT (PDF)
+        </button>
 
         {/* Artist Pulse */}
         <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800">
@@ -113,12 +156,6 @@ export default function ArtistDashboard() {
                       <span className={`${item.statusColor} text-white text-xs font-bold tracking-widest px-3 py-1 rounded-full`}>
                         {item.status}
                       </span>
-                      <button className="text-gray-500 hover:text-white transition">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </button>
                     </div>
                   </>
                 ) : (
@@ -154,12 +191,11 @@ export default function ArtistDashboard() {
             <h2 className="font-bold text-base">State of Mind</h2>
           </div>
           <p className="text-gray-500 text-xs mb-4">
-            Track physical and mental load to prevent burnout. Your precision depends on it.
+            Track physical and mental load to prevent burnout.
           </p>
-
           {[
-            { label: 'Cognitive Focus', value: stateOfMind.cognitive, width: '85%', color: 'bg-purple-500' },
-            { label: 'Hand/Back Strain', value: stateOfMind.strain, width: '60%', color: 'bg-yellow-500' },
+            { label: 'Cognitive Focus', value: 'OPTIMAL', width: '85%', color: 'bg-purple-500' },
+            { label: 'Hand/Back Strain', value: 'ELEVATED', width: '60%', color: 'bg-yellow-500' },
           ].map((item) => (
             <div key={item.label} className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
@@ -171,12 +207,11 @@ export default function ArtistDashboard() {
               </div>
             </div>
           ))}
-
           <div className="grid grid-cols-2 gap-3 mt-4">
             <button className="border border-gray-700 text-xs font-bold tracking-widest text-gray-300 py-3 rounded-xl hover:border-gray-500 transition">
               LOG BREAK
             </button>
-            <button className="border border-gray-700 text-xs font-bold tracking-widest text-gray-300 py-3 rounded-xl hover:border-gray-500 transition">
+            <button className="border border-gray-700 text-xs font-bold tracking-widests text-gray-300 py-3 rounded-xl hover:border-gray-500 transition">
               STRETCH PROMPT
             </button>
           </div>

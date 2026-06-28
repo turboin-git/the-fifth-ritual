@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
+import toast from 'react-hot-toast';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -12,6 +13,22 @@ export default function AdminDashboard() {
     api.get('/admin/stats').then(res => setStats(res.data)).catch(() => setStats(null)).finally(() => setLoading(false));
     api.get('/appointments/all').then(res => setRecentAppointments(res.data.slice(-5).reverse())).catch(() => setRecentAppointments([]));
   }, []);
+
+  const downloadReport = async () => {
+    try {
+      const res = await api.get('/reports/appointments/pdf', { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', 'appointment_report.pdf');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast.success('Report downloaded!');
+    } catch (err) {
+      toast.error('Failed to download report');
+    }
+  };
 
   const managementLinks = [
     {
@@ -99,12 +116,23 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        {/* Download Report Button */}
+        <button
+          onClick={downloadReport}
+          className="w-full mb-4 bg-purple-600 hover:bg-purple-700 text-white font-bold tracking-widest py-3 rounded-xl text-xs transition flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          DOWNLOAD APPOINTMENT REPORT (PDF)
+        </button>
+
         {/* Management Links */}
         <h2 className="font-bold text-lg mb-4">Management</h2>
         <div className="space-y-3 mb-8">
           {managementLinks.map((link) => (
             <button
-              key={link.path}
+              key={link.label}
               onClick={() => navigate(link.path)}
               className="w-full bg-gray-900 rounded-2xl p-4 border border-gray-800 hover:border-purple-500 transition flex items-center gap-4 text-left"
             >
@@ -146,7 +174,6 @@ export default function AdminDashboard() {
             ))}
           </div>
         )}
-
       </div>
     </div>
   );

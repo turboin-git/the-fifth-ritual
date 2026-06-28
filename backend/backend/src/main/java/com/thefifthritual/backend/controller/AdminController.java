@@ -2,7 +2,9 @@ package com.thefifthritual.backend.controller;
 
 import com.thefifthritual.backend.dto.response.AdminStatsResponse;
 import com.thefifthritual.backend.entity.Client;
+import com.thefifthritual.backend.entity.User;
 import java.util.List;
+import java.util.Map;
 import com.thefifthritual.backend.entity.Appointment;
 import com.thefifthritual.backend.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,23 @@ public class AdminController {
     @GetMapping("/clients")
     public ResponseEntity<List<Client>> getAllClients() {
         return ResponseEntity.ok(clientRepository.findAll());
+    }
+
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        User user = client.getUser();
+        if (body.containsKey("fullName")) user.setName(body.get("fullName"));
+        if (body.containsKey("email")) user.setEmail(body.get("email"));
+        if (body.containsKey("phone")) user.setPhone(body.get("phone"));
+        userRepository.save(user);
+
+        if (body.containsKey("medicalNotes")) client.setMedicalNotes(body.get("medicalNotes"));
+        if (body.containsKey("dateOfBirth")) client.setDateOfBirth(body.get("dateOfBirth"));
+
+        return ResponseEntity.ok(clientRepository.save(client));
     }
 
     @DeleteMapping("/clients/{id}")

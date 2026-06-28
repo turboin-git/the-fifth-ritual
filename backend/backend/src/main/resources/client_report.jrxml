@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="client_report"
+              pageWidth="595" pageHeight="842"
+              columnWidth="535" leftMargin="30" rightMargin="30"
+              topMargin="20" bottomMargin="20">
+
+    <parameter name="clientName" class="java.lang.String"/>
+    <parameter name="generatedDate" class="java.lang.String"/>
+    <parameter name="totalBookings" class="java.lang.Integer"/>
+
+    <field name="artistName" class="java.lang.String"/>
+    <field name="scheduledAt" class="java.lang.String"/>
+    <field name="status" class="java.lang.String"/>
+    <field name="designTitle" class="java.lang.String"/>
+
+    <title>
+        <band height="80">
+            <staticText>
+                <reportElement x="0" y="0" width="535" height="35"/>
+                <textElement textAlignment="Center">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[The Fifth Ritual]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="35" width="535" height="25"/>
+                <textElement textAlignment="Center">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Booking History — " + $P{clientName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="60" width="535" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="10" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated: " + $P{generatedDate} + " | Total Bookings: " + $P{totalBookings}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="150" height="30" backcolor="#7c3aed" forecolor="#FFFFFF" mode="Opaque"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ARTIST]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="0" width="150" height="30" backcolor="#7c3aed" forecolor="#FFFFFF" mode="Opaque"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[SCHEDULED]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="0" width="135" height="30" backcolor="#7c3aed" forecolor="#FFFFFF" mode="Opaque"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DESIGN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="435" y="0" width="100" height="30" backcolor="#7c3aed" forecolor="#FFFFFF" mode="Opaque"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[STATUS]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25">
+            <textField>
+                <reportElement x="0" y="0" width="150" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{artistName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="150" y="0" width="150" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{scheduledAt}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="135" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{designTitle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="435" y="0" width="100" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="535" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[End of Report — The Fifth Ritual Studio Management System]]></text>
+            </staticText>
+        </band>
+    </summary>
+
+</jasperReport>

@@ -1,25 +1,25 @@
-2026-06-21T13:24:05.762+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Starting BackendApplication using Java 17.0.19 with PID 18836 (D:\The Fifth Ritual\backend\backend\target\classes started by Utsav in D:\The Fifth Ritual)
-2026-06-21T13:24:05.770+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Running with Spring Boot v3.2.0, Spring v6.1.1
-2026-06-21T13:24:05.772+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : No active profile set, falling back to 1 default profile: "default"
-2026-06-21T13:24:05.910+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-06-21T13:24:05.944+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-06-21T13:24:08.446+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-06-21T13:24:08.634+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 140 ms. Found 10 JPA repository interfaces.
-2026-06-21T13:24:11.189+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2026-06-21T13:24:11.211+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-06-21T13:24:11.211+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
-2026-06-21T13:24:11.343+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-06-21T13:24:11.346+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5400 ms
-2026-06-21T13:24:12.985+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-06-21T13:24:13.354+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
-2026-06-21T13:24:13.558+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-06-21T13:24:15.558+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-06-21T13:24:15.716+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-06-21T13:24:18.236+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@c5e0a1d
-2026-06-21T13:24:18.247+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-06-21T13:24:25.731+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-06-21T13:24:26.211+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column id bigint not null auto_increment
-2026-06-21T13:24:26.439+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column id bigint not null auto_increment" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
+2026-06-28T14:16:32.005+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Starting BackendApplication using Java 17.0.19 with PID 1852 (D:\The Fifth Ritual\backend\backend\target\classes started by Utsav in D:\The Fifth Ritual)
+2026-06-28T14:16:32.071+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-06-28T14:16:32.074+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-06-28T14:16:32.323+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-28T14:16:32.335+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-28T14:16:37.827+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-28T14:16:38.277+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 405 ms. Found 10 JPA repository interfaces.
+2026-06-28T14:16:43.267+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-28T14:16:43.292+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-28T14:16:43.292+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-06-28T14:16:43.409+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-28T14:16:43.409+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 11066 ms
+2026-06-28T14:16:45.089+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-28T14:16:45.471+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-06-28T14:16:45.665+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-28T14:16:46.882+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-28T14:16:47.040+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-28T14:16:48.632+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6cf5322c
+2026-06-28T14:16:48.634+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-28T14:16:53.204+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-28T14:16:53.639+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column id bigint not null auto_increment
+2026-06-28T14:16:53.733+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column id bigint not null auto_increment" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointments modify column id bigint not null auto_increment" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -161,8 +161,8 @@ Caused by: java.sql.SQLException: Referencing column 'appointment_id' and refere
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.530+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column artist_id bigint not null
-2026-06-21T13:24:26.533+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
+2026-06-28T14:16:53.769+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column artist_id bigint not null
+2026-06-28T14:16:53.776+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointments modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -304,8 +304,8 @@ Caused by: java.sql.SQLException: Referencing column 'artist_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.547+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column client_id bigint not null
-2026-06-21T13:24:26.554+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.788+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column client_id bigint not null
+2026-06-28T14:16:53.796+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointments modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -447,8 +447,8 @@ Caused by: java.sql.SQLException: Referencing column 'client_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.569+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column design_id bigint
-2026-06-21T13:24:26.576+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column design_id bigint" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
+2026-06-28T14:16:53.804+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table appointments modify column design_id bigint
+2026-06-28T14:16:53.812+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointments modify column design_id bigint" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointments modify column design_id bigint" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -590,8 +590,8 @@ Caused by: java.sql.SQLException: Referencing column 'design_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.583+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table artists modify column id bigint not null auto_increment
-2026-06-21T13:24:26.621+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table artists modify column id bigint not null auto_increment" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
+2026-06-28T14:16:53.821+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table artists modify column id bigint not null auto_increment
+2026-06-28T14:16:53.828+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table artists modify column id bigint not null auto_increment" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table artists modify column id bigint not null auto_increment" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_2' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -733,8 +733,8 @@ Caused by: java.sql.SQLException: Referencing column 'artist_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.638+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table artists modify column user_id bigint not null
-2026-06-21T13:24:26.647+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table artists modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.835+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table artists modify column user_id bigint not null
+2026-06-28T14:16:53.845+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table artists modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table artists modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -876,8 +876,8 @@ Caused by: java.sql.SQLException: Referencing column 'user_id' and referenced co
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.655+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table clients modify column id bigint not null auto_increment
-2026-06-21T13:24:26.663+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table clients modify column id bigint not null auto_increment" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.860+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table clients modify column id bigint not null auto_increment
+2026-06-28T14:16:53.869+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table clients modify column id bigint not null auto_increment" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table clients modify column id bigint not null auto_increment" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1019,8 +1019,8 @@ Caused by: java.sql.SQLException: Referencing column 'client_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.671+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table clients modify column user_id bigint not null
-2026-06-21T13:24:26.679+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table clients modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'clients_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.950+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table clients modify column user_id bigint not null
+2026-06-28T14:16:53.953+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table clients modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'clients_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table clients modify column user_id bigint not null" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'clients_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1162,8 +1162,8 @@ Caused by: java.sql.SQLException: Referencing column 'user_id' and referenced co
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.695+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table consent_forms modify column client_id bigint not null
-2026-06-21T13:24:26.727+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table consent_forms modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'consent_forms_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.965+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table consent_forms modify column client_id bigint not null
+2026-06-28T14:16:53.968+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table consent_forms modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'consent_forms_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table consent_forms modify column client_id bigint not null" via JDBC [Referencing column 'client_id' and referenced column 'id' in foreign key constraint 'consent_forms_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1305,8 +1305,8 @@ Caused by: java.sql.SQLException: Referencing column 'client_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.735+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table payments modify column appointment_id bigint not null
-2026-06-21T13:24:26.772+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table payments modify column appointment_id bigint not null" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
+2026-06-28T14:16:53.979+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table payments modify column appointment_id bigint not null
+2026-06-28T14:16:53.985+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table payments modify column appointment_id bigint not null" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table payments modify column appointment_id bigint not null" via JDBC [Referencing column 'appointment_id' and referenced column 'id' in foreign key constraint 'payments_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1448,8 +1448,8 @@ Caused by: java.sql.SQLException: Referencing column 'appointment_id' and refere
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.830+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table tattoo_designs modify column id bigint not null auto_increment
-2026-06-21T13:24:26.841+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table tattoo_designs modify column id bigint not null auto_increment" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
+2026-06-28T14:16:53.995+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table tattoo_designs modify column id bigint not null auto_increment
+2026-06-28T14:16:53.997+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table tattoo_designs modify column id bigint not null auto_increment" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table tattoo_designs modify column id bigint not null auto_increment" via JDBC [Referencing column 'design_id' and referenced column 'id' in foreign key constraint 'appointments_ibfk_3' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1591,8 +1591,8 @@ Caused by: java.sql.SQLException: Referencing column 'design_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.856+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table tattoo_designs modify column artist_id bigint not null
-2026-06-21T13:24:26.869+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table tattoo_designs modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'tattoo_designs_ibfk_1' are incompatible.]
+2026-06-28T14:16:54.005+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table tattoo_designs modify column artist_id bigint not null
+2026-06-28T14:16:54.012+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table tattoo_designs modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'tattoo_designs_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table tattoo_designs modify column artist_id bigint not null" via JDBC [Referencing column 'artist_id' and referenced column 'id' in foreign key constraint 'tattoo_designs_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1734,8 +1734,8 @@ Caused by: java.sql.SQLException: Referencing column 'artist_id' and referenced 
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:26.890+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table users modify column id bigint not null auto_increment
-2026-06-21T13:24:26.901+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table users modify column id bigint not null auto_increment" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
+2026-06-28T14:16:54.018+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] org.hibernate.SQL                        : alter table users modify column id bigint not null auto_increment
+2026-06-28T14:16:54.033+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table users modify column id bigint not null auto_increment" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table users modify column id bigint not null auto_increment" via JDBC [Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'artists_ibfk_1' are incompatible.]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
@@ -1877,11 +1877,14 @@ Caused by: java.sql.SQLException: Referencing column 'user_id' and referenced co
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.3.1.Final.jar:6.3.1.Final]
 	... 128 common frames omitted
 
-2026-06-21T13:24:27.295+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-06-21T13:24:30.853+05:45 DEBUG 18836 --- [The Fifth Ritual] [restartedMain] c.t.b.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
-2026-06-21T13:24:36.574+05:45  WARN 18836 --- [The Fifth Ritual] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-06-21T13:24:40.575+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
-2026-06-21T13:24:41.020+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@76cf4ef7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e5f4d1a, org.springframework.security.web.context.SecurityContextHolderFilter@33c105c4, org.springframework.security.web.header.HeaderWriterFilter@16967357, org.springframework.web.filter.CorsFilter@2ec858c5, org.springframework.security.web.authentication.logout.LogoutFilter@45aeaf45, com.thefifthritual.backend.security.JwtAuthenticationFilter@2fdeb842, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2d2a06ee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@733e936d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4d94c4fe, org.springframework.security.web.session.SessionManagementFilter@3c90249c, org.springframework.security.web.access.ExceptionTranslationFilter@31a31ae9, org.springframework.security.web.access.intercept.AuthorizationFilter@af6d8ce]
-2026-06-21T13:24:45.011+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2026-06-21T13:24:45.523+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-2026-06-21T13:24:45.621+05:45  INFO 18836 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Started BackendApplication in 40.648 seconds (process running for 41.779)
+2026-06-28T14:16:54.310+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-28T14:16:57.821+05:45 DEBUG 1852 --- [The Fifth Ritual] [restartedMain] c.t.b.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-06-28T14:17:00.506+05:45  WARN 1852 --- [The Fifth Ritual] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-28T14:17:03.012+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+2026-06-28T14:17:03.310+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e2f0082, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@21279bcf, org.springframework.security.web.context.SecurityContextHolderFilter@5f895e2a, org.springframework.security.web.header.HeaderWriterFilter@6f14c88d, org.springframework.web.filter.CorsFilter@79a97670, org.springframework.security.web.authentication.logout.LogoutFilter@66ea43d2, com.thefifthritual.backend.security.JwtAuthenticationFilter@3cb5235b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2e050577, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14fa5db6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@614433ca, org.springframework.security.web.session.SessionManagementFilter@69326e6d, org.springframework.security.web.access.ExceptionTranslationFilter@6cd86b1f, org.springframework.security.web.access.intercept.AuthorizationFilter@309eef21]
+2026-06-28T14:17:05.625+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-28T14:17:06.047+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-06-28T14:17:06.116+05:45  INFO 1852 --- [The Fifth Ritual] [restartedMain] c.t.backend.BackendApplication           : Started BackendApplication in 36.18 seconds (process running for 40.843)
+2026-06-28T14:29:01.877+05:45  INFO 1852 --- [The Fifth Ritual] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-28T14:29:02.105+05:45  INFO 1852 --- [The Fifth Ritual] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-28T14:29:02.291+05:45  INFO 1852 --- [The Fifth Ritual] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
