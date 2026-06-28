@@ -53,24 +53,24 @@ public class AuthService {
             clientRepository.save(client);
         }
 
-        // Send welcome email
         log.info("New user registered: {}", user.getEmail());
         emailService.sendWelcomeEmail(user.getEmail(), user.getName());
 
         String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name(),
-                user.getName(), user.getId());
+        return new AuthResponse(token, user.getRole().name(), user.getName(), user.getId());
     }
 
-    public AuthResponse login(LoginRequest request) {
+    public void validateCredentials(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(), request.getPassword())
         );
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        log.info("User logged in: {}", user.getEmail());
+    }
+
+    public AuthResponse loginAfterOtp(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        log.info("User logged in after OTP: {}", user.getEmail());
         String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name(),
-                user.getName(), user.getId());
+        return new AuthResponse(token, user.getRole().name(), user.getName(), user.getId());
     }
 }
