@@ -18,21 +18,34 @@ export default function Login() {
 
   // Step 1 — submit email + password, get OTP sent
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await loginApi({ email, password });
-      if (res.data.otpSent) {
-        setPendingEmail(res.data.email);
-        setOtpSent(true);
-        toast.success('OTP sent to your email!');
-      }
-    } catch (err) {
-      toast.error('Invalid email or password');
-    } finally {
-      setLoading(false);
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const res = await loginApi({ email, password });
+
+    // ADMIN or ARTIST — direct login, no OTP
+    if (res.data.token) {
+      const { token, role, name, userId } = res.data;
+      login({ name, role, userId }, token);
+      toast.success(`Welcome back, ${name}!`);
+      if (role === 'ADMIN') navigate('/admin');
+      else if (role === 'ARTIST') navigate('/artist');
+      else navigate('/dashboard');
+      return;
     }
-  };
+
+    // CLIENT — OTP flow
+    if (res.data.otpSent) {
+      setPendingEmail(res.data.email);
+      setOtpSent(true);
+      toast.success('OTP sent to your email!');
+    }
+  } catch (err) {
+    toast.error('Invalid email or password');
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Step 2 — submit OTP, get JWT back
   const handleVerifyOtp = async (e) => {

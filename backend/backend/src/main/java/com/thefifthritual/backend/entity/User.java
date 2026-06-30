@@ -30,6 +30,9 @@ public class User {
 
     private String phone;
 
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 

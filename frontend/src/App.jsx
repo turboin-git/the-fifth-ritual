@@ -23,6 +23,8 @@ import ManageDesigns from './pages/admin/ManageDesigns';
 import ManageArtists from './pages/admin/ManageArtists';
 import ManageClients from './pages/admin/ManageClients';
 import ContactMessages from './pages/admin/ContactMessages';
+import Profile from "./pages/client/Profile";
+import MyAppointments from "./pages/client/MyAppointments";
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user } = useAuth();
@@ -42,6 +44,8 @@ function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/about" element={<About />} />
+      <Route path="/profile" element={<ProtectedRoute role="CLIENT"><Profile /></ProtectedRoute>} />
+      <Route path="/my-appointments" element={<ProtectedRoute role="CLIENT"><MyAppointments /></ProtectedRoute>} />
 
       <Route path="/dashboard" element={
         <ProtectedRoute allowedRole="CLIENT">

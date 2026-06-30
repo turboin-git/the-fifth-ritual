@@ -24,7 +24,6 @@ public class FileUploadController {
 
     private final FileStorageService fileStorageService;
 
-    // Upload tattoo design image
     @PostMapping("/upload/design")
     public ResponseEntity<Map<String, String>> uploadDesignImage(
             @RequestParam("file") MultipartFile file) {
@@ -44,7 +43,7 @@ public class FileUploadController {
                     .body(Map.of("error", "File size must be less than 10MB"));
         }
 
-        String fileUrl = fileStorageService.saveFile(file, "designs");
+        String fileUrl = fileStorageService.storeFile(file, "designs");
         log.info("Design image uploaded: {}", fileUrl);
 
         Map<String, String> response = new HashMap<>();
@@ -53,7 +52,6 @@ public class FileUploadController {
         return ResponseEntity.ok(response);
     }
 
-    // Upload profile image
     @PostMapping("/upload/profile")
     public ResponseEntity<Map<String, String>> uploadProfileImage(
             @RequestParam("file") MultipartFile file) {
@@ -68,7 +66,7 @@ public class FileUploadController {
                     .body(Map.of("error", "Only image files are allowed"));
         }
 
-        String fileUrl = fileStorageService.saveFile(file, "profiles");
+        String fileUrl = fileStorageService.storeFile(file, "profiles");
         log.info("Profile image uploaded: {}", fileUrl);
 
         Map<String, String> response = new HashMap<>();
@@ -77,7 +75,6 @@ public class FileUploadController {
         return ResponseEntity.ok(response);
     }
 
-    // Download/serve file
     @GetMapping("/download/{folder}/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(
             @PathVariable String folder,

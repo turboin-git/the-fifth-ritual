@@ -12,5 +12,10 @@ public class ClientProfileResponse {
     private Long userId;
     private String name;
     private String email;
+    private String phone;
+    private String dateOfBirth;
+    private String medicalNotes;
+    private String profilePicture;
+    private String createdAt;
     private boolean hasValidConsent;
 }

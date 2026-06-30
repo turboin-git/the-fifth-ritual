@@ -53,7 +53,7 @@ public class TattooDesignService {
         design.setDurationHours(durationHours != null ? durationHours : BigDecimal.ONE);
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = fileStorageService.saveFile(imageFile, "designs");
+            String imageUrl = fileStorageService.storeFile(imageFile, "designs");
             design.setImageUrl(imageUrl);
             log.info("Design image saved: {}", imageUrl);
         }
@@ -80,7 +80,7 @@ public class TattooDesignService {
             if (design.getImageUrl() != null) {
                 fileStorageService.deleteFile(design.getImageUrl());
             }
-            String imageUrl = fileStorageService.saveFile(imageFile, "designs");
+            String imageUrl = fileStorageService.storeFile(imageFile, "designs");
             design.setImageUrl(imageUrl);
         }
 

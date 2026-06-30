@@ -16,7 +16,7 @@ public class FileStorageService {
     private String uploadDir;
 
     // Save file and return the file URL
-    public String saveFile(MultipartFile file, String subfolder) {
+    public String storeFile(MultipartFile file, String subfolder) {
         try {
             // Create upload directory if it doesn't exist
             Path uploadPath = Paths.get(uploadDir, subfolder);

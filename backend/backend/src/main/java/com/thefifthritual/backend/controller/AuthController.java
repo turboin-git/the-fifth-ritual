@@ -29,16 +29,25 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(
+    public ResponseEntity<?> login(
             @Valid @RequestBody LoginRequest request) {
         authService.validateCredentials(request);
+
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        otpService.generateAndSendOtp(user.getEmail(), user.getName());
-        return ResponseEntity.ok(Map.of(
-                "otpSent", true,
-                "email", user.getEmail(),
-                "message", "OTP sent to your email"
-        ));
+
+        // Skip OTP for ADMIN and ARTIST — only CLIENT gets 2FA
+        if (user.getRole() == User.Role.CLIENT || user.getRole() == User.Role.ARTIST) {
+            otpService.generateAndSendOtp(user.getEmail(), user.getName());
+            return ResponseEntity.ok(Map.of(
+                    "otpSent", true,
+                    "email", user.getEmail(),
+                    "message", "OTP sent to your email"
+            ));
+        }
+
+        // ADMIN and ARTIST — return JWT directly
+        AuthResponse response = authService.loginAfterOtp(user.getEmail());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/verify-otp")
